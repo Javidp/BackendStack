@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: rest1
+    name: rest
 
 # Eureka configuration
 eureka:
