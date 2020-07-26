@@ -34,6 +34,8 @@ eureka:
       defaultZone: http://localhost:9081/eureka/
   instance:
     preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
 
 logging:
   level:

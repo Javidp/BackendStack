@@ -1,9 +1,22 @@
 server:
-  port: 9090
+  port: 9085
 
 spring:
   application:
-    name: rest
+    name: auth
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+
+auth:
+  jwt:
+    token:
+      key:
+        path: D:\my-projects\SpringCloud\_keys\authorization.p12
+        password: "***"
+        alias: services-authorization
 
 # Eureka configuration
 eureka:
