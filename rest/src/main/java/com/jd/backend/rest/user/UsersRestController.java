@@ -1,15 +1,13 @@
 package com.jd.backend.rest.user;
 
 import com.jd.backend.rest.config.ServerConfig;
+import com.jd.backend.rest.model.users.IUserCommandRepository;
+import com.jd.backend.rest.model.users.IUserQueryRepository;
 import com.jd.backend.rest.model.users.User;
-import com.jd.backend.rest.model.users.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 
@@ -20,8 +18,19 @@ public class UsersRestController {
 
     @Autowired
     private ServerConfig serverConfig;
+
     @Autowired
-    private UsersRepository usersRepository;
+    private IUserCommandRepository userCommandRepository;
+    @Autowired
+    private IUserQueryRepository userQueryRepository;
+
+    @GetMapping("/user/find")
+    public User findUser(@RequestParam("userId") long userId) {
+        var user = userQueryRepository.findOne(userId);
+        logger.info("user: {}", user);
+
+        return user.orElse(new User());
+    }
 
     @PostMapping("/user/add")
     public String addUser(@RequestBody AddUserParameters addUserParameters) {
@@ -30,7 +39,7 @@ public class UsersRestController {
         user.setPassword(addUserParameters.getPassword());
         user.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
-        usersRepository.save(user);
+        userCommandRepository.save(user);
 
         return user.toString();
     }
@@ -44,7 +53,7 @@ public class UsersRestController {
                 user.setPassword("pass");
                 user.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
-                usersRepository.save(user);
+                userCommandRepository.save(user);
                 logger.info("Added new user: " + user);
             }
         }).start();
