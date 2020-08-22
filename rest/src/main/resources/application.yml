@@ -1,16 +1,28 @@
 server:
-  port: 9090
+  port: 9091
 
 spring:
   application:
     name: rest
+  datasource:
+    username: root
+    password: "****"
+    url: jdbc:mysql://127.0.0.1:3306/rest?serverTimezone=UTC
+#    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
 
 # Eureka configuration
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:9081/eureka/
-  instance:
-    preferIpAddress: true
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 10
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:9081/eureka/
+#  instance:
+#    preferIpAddress: true
+#    leaseRenewalIntervalInSeconds: 5
+#    leaseExpirationDurationInSeconds: 10
